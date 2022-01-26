@@ -3,6 +3,7 @@ import { Switch } from '@headlessui/react'
 import { CheckIcon, QuestionMarkCircleIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import process from 'process'
 import url from '../utils/server.js'
 
 const Home = () => {
@@ -80,7 +81,7 @@ const Home = () => {
               <Switch
                 checked={valencia}
                 onChange={setValencia}
-                disabled={isLoading}
+                disabled={isLoading || process.env.NODE_ENV !== 'development'}
                 className={`${isLoading && 'cursor-not-allowed'} group flex flex-row items-center justify-start space-x-2`}
               >
                 <div
@@ -89,7 +90,7 @@ const Home = () => {
                   <CheckIcon className={`${valencia ? 'scale-100' : 'scale-50 translate-y-1.5 opacity-0'} w-5 h-5 transform transition ease-in-out duration-100`} aria-hidden="true" />
                 </div>
                 <span className="">Valencia</span>
-                <abbr title="La localización de las bibliotecas se cargará mediante Selenium (esto puede llevar desde unos segundos a unos pocos minutos)">
+                <abbr title={`${process.env.NODE_ENV !== 'development' ? 'Esta opción está deshabilitada en producción ya que Selenium no funciona desde lado servidor (sí funciona en local)' : 'La localización de las bibliotecas se cargará mediante Selenium (esto puede llevar desde unos segundos a unos pocos minutos)'}`}>
                   <QuestionMarkCircleIcon className="w-5 h-5 text-gray-300 cursor-help" aria-hidden="true" />
                 </abbr>
               </Switch>

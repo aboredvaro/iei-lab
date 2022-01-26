@@ -10,9 +10,10 @@ const Search = ({
   codigoPostal,
   provincia,
   tipo,
+  bibliotecas,
 }) => {
 
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState(bibliotecas)
   const [db, setDB] = useState([])
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const Search = ({
     setProvinciaSeleccionada(null)
     setTipoSeleccionado(null)
 
-    setResults([])
+    setResults(bibliotecas)
   }
   const someSelected = () => {
     return localidadSeleccionada !== null ||
@@ -513,7 +514,10 @@ export async function getServerSideProps(ctx) {
 	const provincia = await fetch(`${url}/api/cargaProvincia`)
 	 	.then(response => response.json())
 
-	const tipo = await fetch(`${url}/api/cargaTipo`)
+  const tipo = await fetch(`${url}/api/cargaTipo`)
+	 	.then(response => response.json())
+
+  const bibliotecas = await fetch(`${url}/api/cargaBuscador`)
 	 	.then(response => response.json())
 
 	return {
@@ -522,6 +526,7 @@ export async function getServerSideProps(ctx) {
       codigoPostal,
       provincia,
       tipo,
+      bibliotecas,
 		}
 	}
 
