@@ -9,13 +9,22 @@ module.exports = {
     },
     colors: {
       transparent: 'rgba(0,0,0,0)',
-      orange: colors.orange,
-      gray: colors.gray
+      white: colors.white,
+      indigo: colors.indigo,
+      gray: colors.gray,
     },
-    extend: {},
+    extend: {
+      transitionDuration: {
+        '0': '0ms',
+        '50': '50ms',
+      }
+    },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ['active', 'group-focus'],
+      textColor: ['active', 'group-focus'],
+    },
   },
   plugins: [],
 }

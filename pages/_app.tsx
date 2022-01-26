@@ -6,8 +6,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Wanna HangOut</title>
-        <meta property="og:title" content="Wanna HangOut" key="title" />
+        <title>🔍 Buscador de Bibliotecas</title>
+        <meta property="og:title" content="Buscador de Bibliotecas" key="title" />
       </Head>
       <Component {...pageProps} />
     </>
