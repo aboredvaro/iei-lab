@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { Listbox, Transition, Dialog } from '@headlessui/react'
 import { CheckIcon, SelectorIcon, ChevronLeftIcon, DatabaseIcon } from '@heroicons/react/solid'
+import { ViewListIcon, MapIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import url from '../utils/server.js'
@@ -15,14 +16,16 @@ const Search = ({
 
   const [results, setResults] = useState(bibliotecas)
   const [db, setDB] = useState([])
-
+  
   useEffect(() => {
-      const dbLS = window.localStorage.getItem('db')
-      if (dbLS) setDB(dbLS.split(','))
+    const dbLS = window.localStorage.getItem('db')
+    if (dbLS) setDB(dbLS.split(','))
   }, [results]);
   
-
+  
   const router = useRouter()
+
+  const [viewList, setViewList] = useState(true)
 
   const [localidadSeleccionada, setLocalidadSeleccionada] = useState(null)
   const [codigoPostalSeleccionado, setCodigoPostalSeleccionado] = useState(null)
@@ -64,16 +67,16 @@ const Search = ({
     const filters = []
 
     if (localidadSeleccionada !== null) {
-      filters.push(`?lc=${localidadSeleccionada.localidad}`)
+      filters.push(`lc=${localidadSeleccionada.localidad}`)
     }
     if (codigoPostalSeleccionado !== null) {
-      filters.push(`?cp=${codigoPostalSeleccionado.codigoPostal}`)
+      filters.push(`cp=${codigoPostalSeleccionado.codigoPostal}`)
     }
     if (provinciaSeleccionada !== null) {
-      filters.push(`?pr=${provinciaSeleccionada.provincia}`)
+      filters.push(`pr=${provinciaSeleccionada.provincia}`)
     }
     if (tipoSeleccionado !== null) {
-      filters.push(`?tp=${tipoSeleccionado.tipo}`)
+      filters.push(`tp=${tipoSeleccionado.tipo}`)
     }
 
     const query = filters.join("&")
@@ -81,7 +84,7 @@ const Search = ({
     // console.log(`${url}/api/cargaBuscador${query}`)
 
     try {
-      await fetch(`${url}/api/cargaBuscador${query}`)
+      await fetch(`${url}/api/cargaBuscador?${query}`)
       .then(response => response.json())
       // .then(response => { console.log(response) })
       .then(response => { setResults(response) })
@@ -112,6 +115,13 @@ const Search = ({
           </div>
 
           <div className="flex flex-col items-start space-y-6">
+
+            {/* Vista de lista/mapa */}
+            <div className="flex flex-row w-full rounded-lg bg-gray-50">
+              <button className="">
+                Lista
+              </button>
+            </div>
 
             {/* Lista de localidades */}
             <div className="flex flex-col space-y-1">
