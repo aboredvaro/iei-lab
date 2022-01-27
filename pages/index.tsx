@@ -194,7 +194,7 @@ const Home = () => {
             disabled={isLoading}
             className={`${isLoading && 'cursor-not-allowed'} flex flex-row items-center justify-center h-12 px-6 m-4 rounded-lg ${clearMSG_SUCCESS ? 'text-emerald-600 bg-emerald-100 active:bg-emerald-200' : 'text-rose-600 bg-rose-100 active:bg-rose-200'} font-medium transition ease-in-out duration-100`}
           >
-            {clearMSG} ({window.localStorage.getItem('db') ?? 'vacío'})
+            {clearMSG} ({typeof window !== 'undefined' && (window.localStorage.getItem('db') ?? 'vacío')})
           </button>
         </div>
       </div>
