@@ -400,7 +400,7 @@ const Search = ({
               <span className="text-xl">{results.length} Resultados</span>
 
               <abbr
-                title={`Datos recopilados de las bases de datos: ${db.join(', ')}`}
+                title={`${db.length > 0 ? `Datos recopilados de las bases de datos: ${db.join(', ')}` : 'Sin datos para mostrar'}`}
                 className="flex flex-row items-center text-base text-gray-400 cursor-help"
               >
                 <span>{db.length} Bases de datos</span>

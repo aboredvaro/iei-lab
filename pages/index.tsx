@@ -52,7 +52,7 @@ const Home = () => {
   }
 
   const selectAll = () => {
-    setValencia(true)
+    setValencia(process.env.NODE_ENV === 'development')
     setEuskadi(true)
     setCatalunya(true)
   }
