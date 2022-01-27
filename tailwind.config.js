@@ -11,6 +11,8 @@ module.exports = {
       transparent: 'rgba(0,0,0,0)',
       white: colors.white,
       indigo: colors.indigo,
+      rose: colors.rose,
+      emerald: colors.emerald,
       gray: colors.gray,
     },
     extend: {

@@ -4,6 +4,7 @@ import { CheckIcon, SelectorIcon, ChevronLeftIcon, DatabaseIcon } from '@heroico
 import { ViewListIcon, MapIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import MapContainer from '../components/map'
 import url from '../utils/server.js'
 
 const Search = ({
@@ -53,6 +54,7 @@ const Search = ({
     setTipoSeleccionado(null)
 
     setResults(bibliotecas)
+    // console.log(bibliotecas)
   }
   const someSelected = () => {
     return localidadSeleccionada !== null ||
@@ -87,7 +89,7 @@ const Search = ({
       await fetch(`${url}/api/cargaBuscador?${query}`)
       .then(response => response.json())
       // .then(response => { console.log(response) })
-      .then(response => { setResults(response) })
+      .then(response => { setResults(response); console.log(response); })
     } catch (e) {
       console.log(e)
     } finally {
@@ -95,6 +97,17 @@ const Search = ({
     }
 
   }
+  
+  const containerStyle = {
+    position: 'relative',
+    width: '600px',
+    height: '400px'
+  }
+
+  const center = {
+		lat: 40.416578,
+		lng: -3.704297
+	}
 
   return (
     <>
@@ -117,9 +130,20 @@ const Search = ({
           <div className="flex flex-col items-start space-y-6">
 
             {/* Vista de lista/mapa */}
-            <div className="flex flex-row w-full rounded-lg bg-gray-50">
-              <button className="">
-                Lista
+            <div className="flex flex-row w-full rounded-lg bg-white shadow-md">
+              <button
+                onClick={() => { !viewList && setViewList(true) }}
+                className={`${viewList ? 'bg-indigo-50 text-indigo-600 ring-2 ring-indigo-400 font-medium' : 'text-gray-600'} flex flex-row flex-1 items-center justify-center px-6 h-10 rounded-lg space-x-2`}
+              >
+                <ViewListIcon className="w-5 h-5" aria-hidden="true" />
+                <span>Lista</span>
+              </button>
+              <button
+                onClick={() => { viewList && setViewList(false) }}
+                className={`${!viewList ? 'bg-indigo-50 text-indigo-600 ring-2 ring-indigo-400 font-medium' : 'text-gray-600'} flex flex-row flex-1 items-center justify-center px-6 h-10 rounded-lg space-x-2`}
+              >
+                <MapIcon className="w-5 h-5" aria-hidden="true" />
+                <span>Mapa</span>
               </button>
             </div>
 
@@ -385,7 +409,8 @@ const Search = ({
             </div>
           </div>
           
-          {results.length === 0 ?
+          {/* LISTA */}
+          {viewList && (results.length === 0 ?
             <>
               <div className="flex flex-col w-full h-full items-center justify-center">
                 <span className="flex flex-col items-center justify-center px-6 h-10 bg-gray-100 text-gray-500 rounded-xl">No hay resultados para esta búsqueda</span>
@@ -397,6 +422,7 @@ const Search = ({
                 {results.map(item => (
                   <>
                     <div
+                      key= {item.direccion}
                       onClick={() => { showDetails(item) }}
                       className="group flex flex-col flex-shrink-0 items-start justify-center hover:bg-indigo-50 h-24 px-4 rounded-xl transition ease-in-out duration-150 cursor-pointer"
                     >
@@ -411,7 +437,20 @@ const Search = ({
                 ))}
               </div>
             </>
-          }
+          )}
+
+          {/* MAPA */}
+          {!viewList && (
+            <div className="flex flex-col items-center justify-center w-full h-full">
+              <MapContainer
+                containerStyle={containerStyle}
+                center={center}
+                zoom={5.5}
+                results={results}
+                showDetails= {showDetails}
+              />
+            </div>
+          )}
         </div>
 
         {/* HOJA DE DETALLES */}
