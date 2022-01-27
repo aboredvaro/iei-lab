@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { Listbox, Transition, Dialog } from '@headlessui/react'
-import { CheckIcon, SelectorIcon, ChevronLeftIcon, DatabaseIcon } from '@heroicons/react/solid'
+import { CheckIcon, SelectorIcon, ChevronLeftIcon, DatabaseIcon, CursorClickIcon } from '@heroicons/react/solid'
 import { ViewListIcon, MapIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -449,6 +449,13 @@ const Search = ({
                 results={results}
                 showDetails= {showDetails}
               />
+
+              <div className="flex flex-row items-center justify-center mt-10 text-gray-400 space-x-2">
+                <CursorClickIcon className="w-5 h-5" aria-hidden="true" />
+                <span>Haz click en los marcadores para mostrar detalles</span>
+              </div>
+              
+              
             </div>
           )}
         </div>
